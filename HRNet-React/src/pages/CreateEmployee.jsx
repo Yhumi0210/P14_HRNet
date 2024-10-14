@@ -117,10 +117,6 @@ export default function CreateEmployee() {
                                 <StateSelector
                                     onChange={(e) => handleChange({target: {name: 'state', value: e.target.value}})}
                                     value={formData.state}/>
-                                {/*<label htmlFor="state">State</label>*/}
-                                {/*<select name="state" className='w-60 h-8 rounded-md bg-white shadow-lg shadow-emerald-500/50'*/}
-                                {/*        onChange={handleChange} value={formData.state}>{<StateSelector />}</select>*/}
-
                                 <label htmlFor="zipCode">Zip Code</label>
                                 <input type="number" name="zipCode"
                                        className='w-60 h-8 rounded-md shadow-lg shadow-emerald-500/50'

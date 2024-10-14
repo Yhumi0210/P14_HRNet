@@ -10,16 +10,17 @@ import PropTypes from "prop-types"
  * @property {object} employee
  *
  */
-export default function EmployeeTable({paginatedEmployees, handleSort, labelsAndKeys }) {
+export default function EmployeeTable({paginatedEmployees, handleSort, columnNamesAndKeys }) {
 
     return (
         <>
             <table>
                 <thead className='bg-emerald-400 border-2 border-emerald-400 h-12'>
                 <tr className=''>
-                    {labelsAndKeys.map(([label, key], index) => (
+                    {/* label = First Name (index 0), key = firstName (index 1). Si pas destructuré: props[0], props[1]*/}
+                    {columnNamesAndKeys.map(([columnName, key], index) => (
                         <th className='cursor-pointer' key={index} onClick={() => handleSort(key)}>
-                            {label}<div>▲▼</div>
+                            {columnName}<div>▲▼</div>
                         </th>
                     ))}
                 </tr>
@@ -29,24 +30,11 @@ export default function EmployeeTable({paginatedEmployees, handleSort, labelsAnd
                 {/* */}
                 {paginatedEmployees.length > 0 ? (
                     paginatedEmployees.map((employee, index) => (
-                    <tr key={index} className='h-10'>
-                        {labelsAndKeys.map(([label, key], index) => (
-                            <td className='border-2 border-emerald-400' key={index}>{employee[label, key]}</td>
-                        ))}
-
-                        {/* voir pourquoi ça marche comme ça*/}
-
-                        {/* refaire la meme chose que la thead attention c'est un objet et un tableau, indice: labelsandkeys */}
-                        {/*<td className='border-2 border-emerald-400'>{employee.firstName}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.lastName}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.startDate}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.department}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.birthDate}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.street}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.city}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.state}</td>*/}
-                        {/*<td className='border-2 border-emerald-400'>{employee.zipCode}</td>*/}
-                    </tr>
+                        <tr key={index} className='h-10'>
+                            {columnNamesAndKeys.map((columnNameAndKey, index) => (
+                                <td className='border-2 border-emerald-400' key={index}>{employee[columnNameAndKey[1]]}</td>
+                            ))}
+                        </tr>
                     ))) : (
                     <tr>
                         <td colSpan="9" className="text-center py-4">
@@ -63,5 +51,5 @@ export default function EmployeeTable({paginatedEmployees, handleSort, labelsAnd
 EmployeeTable.propTypes = {
     paginatedEmployees: PropTypes.array.isRequired,
     handleSort: PropTypes.func.isRequired,
-    labelsAndKeys: PropTypes.array.isRequired
+    columnNamesAndKeys: PropTypes.array.isRequired
 }

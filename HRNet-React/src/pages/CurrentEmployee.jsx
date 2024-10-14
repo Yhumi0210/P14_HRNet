@@ -32,7 +32,7 @@ export default function CurrentEmployees() {
     const [filteredEmployees, setFilteredEmployees] = useState([]) // État pour gérer les employés filtrés
     const [currentPage, setCurrentPage] = useState(1) // État pour gérer la page actuelle
     const [sortConfig, setSortConfig] = useState({ key: '', direction: '' }) // État pour gérer le tri
-    const labelsAndKeys = [['First Name', 'firstName'], ['Last Name', 'lastName'], ['Start Date', 'startDate'], ['Department', 'department'], ['Birth Date', 'birthDate'], ['Street', 'street'], ['City', 'city'], ['State', 'state'], ['Zip Code', 'zipCode']]
+    const columnNamesAndKeys = [['First Name', 'firstName'], ['Last Name', 'lastName'], ['Start Date', 'startDate'], ['Department', 'department'], ['Birth Date', 'birthDate'], ['Street', 'street'], ['City', 'city'], ['State', 'state'], ['Zip Code', 'zipCode']]
 
     // Gestion du changement de nombre d'entrées à afficher
     const handleEntriesChange = (e) => {
@@ -58,15 +58,12 @@ export default function CurrentEmployees() {
     // Filtrer et trier les employés
     useEffect(() => {
 
-        // à voir si je peux pas diviser en plusieurs useEffect
-
         // Filtrer les employés selon la barre de recherche
         let filteredData = employees.filter((employee) =>
             Object.values(employee).some((value) =>
                 String(value).toLowerCase().includes(searchTerm.toLowerCase())
             )
         )
-
         // Trier les employés filtrés
         if (sortConfig.key) {
             filteredData = [...filteredData].sort((a, b) => {
@@ -138,7 +135,7 @@ export default function CurrentEmployees() {
             </div>
             <div
                 className='bg-white p-2 flex flex-col text-center mt-4 text-xl rounded-md shadow-lg shadow-emerald-500/50'>
-                <EmployeeTable paginatedEmployees={paginatedEmployees} handleSort={handleSort} labelsAndKeys={labelsAndKeys} />
+                <EmployeeTable paginatedEmployees={paginatedEmployees} handleSort={handleSort} columnNamesAndKeys={columnNamesAndKeys} />
 
 
                 {/* COMPOSANT */}
