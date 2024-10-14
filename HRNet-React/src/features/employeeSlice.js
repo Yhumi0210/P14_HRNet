@@ -1,10 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import employeesData from '../mock/employeesData.js'
 
+/**
+ *
+ * @type {{data: *[]}}
+ */
 const initialState = {
     data: [],
 }
 
+/**
+ *
+ * @type {Slice<{data: *[]}, {initEmployees: *, addEmployee: *}, string, string, SliceSelectors<{data: *[]}>>}
+ */
 export const employeeSlice = createSlice({
     name: 'employee',
     initialState,

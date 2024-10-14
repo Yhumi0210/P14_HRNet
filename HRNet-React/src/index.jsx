@@ -8,6 +8,12 @@ import './assets/css/index.css'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
 
+/**
+ * index component renders the application's main component.
+ * @returns {JSX.Element}
+ * @constructor
+ */
+
 const router = createBrowserRouter([
     {
         element: <App />,

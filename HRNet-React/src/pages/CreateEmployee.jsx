@@ -6,17 +6,20 @@ import DatePicker from "../components/DatePicker.jsx"
 import AutoCloseModal from 'react-auto-close-modal'
 
 /**
- * CreateEmployee component renders a form to create a new employee.
- *
+ * CreateEmployee component renders a form to create a new employee. It uses the useState hook to manage
+ * the form data and the useEffect hook to initialize the employees data from the server.
  * @returns {JSX.Element}
  * @constructor
- * @property {object} formData
- * @property {function} handleChange
- * @property {function} handleSubmit
- * @property {function} handleResetForm
- * @property {function} handleDateChange
- * @property {function} handleStateChange
- *
+ * @property {object} formData - An object containing the form data for the employee.
+ * @property {function} handleChange - A function to handle the change event of the form inputs.
+ * @property {function} handleSubmit - A function to handle the submission of the form.
+ * @property {function} handleResetForm - A function to reset the form data.
+ * @property {function} handleDateChange - A function to handle the change event of the date inputs.
+ * @property {function} handleStateChange - A function to handle the change event of the state selector.
+ * @property {function} openModal - A function to open the success modal.
+ * @property {function} closeModal - A function to close the success modal.
+ * @property {function} openErrorModal - A function to open the error modal.
+ * @property {function} closeErrorModal - A function to close the error modal.
  */
 export default function CreateEmployee() {
     // const employees = useSelector(state => state.employee.data)
@@ -24,6 +27,7 @@ export default function CreateEmployee() {
     // pour lastName et firstname etc faudra laisser des valeurs vide {''}
     const dispatch = useDispatch()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -31,6 +35,14 @@ export default function CreateEmployee() {
 
     const closeModal = () => {
         setIsModalOpen(false)
+    }
+
+    const openErrorModal = () => {
+        setIsErrorModalOpen(true)
+    }
+
+    const closeErrorModal = () => {
+        setIsErrorModalOpen(false)
     }
 
     const handleChange = (event) => {
@@ -48,11 +60,12 @@ export default function CreateEmployee() {
         // vérifie que tous les champs sont remplis
         const {firstName, lastName, birthDate, startDate, street, city, state, zipCode, department} = formData
         if (!firstName || !lastName || !birthDate || !startDate || !street || !city || !state || !zipCode || !department) {
-            alert('All inputs should be completed')
+            openErrorModal()
             return // le return empeche la soummission du formulaire si tous les champs ne sont pas remplis
         }
 
         dispatch(addEmployee(formData))
+        openModal()
         setFormData({firstName: '', lastName: '', birthDate: '', startDate: '', street: '', city: '', state: '', zipCode: '', department: ''})
     }
 
@@ -131,9 +144,13 @@ export default function CreateEmployee() {
                             className='text-xl w-60 h-8 rounded-md bg-gradient-to-r from-white to-white hover:from-teal-500 hover:to-emerald-400 hover:text-white shadow-lg shadow-emerald-500/50'>
                         Save
                     </button>
-                    {/* ajout d'une vérif de champs dans handleSubmit */}
+                    {/* Success Modal */}
                     <AutoCloseModal isOpen={isModalOpen} onClose={closeModal} autoCloseTime={2000}>
                         <h2 className={'text-center text-2xl'}>Employee Created !</h2>
+                    </AutoCloseModal>
+                    {/* Error Modal */}
+                    <AutoCloseModal isOpen={isErrorModalOpen} onClose={closeErrorModal} autoCloseTime={2000}>
+                        <h2 className={'text-center text-2xl text-red-600'}>All inputs should be completed</h2>
                     </AutoCloseModal>
                 </form>
             </div>
